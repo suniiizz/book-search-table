@@ -4,8 +4,6 @@ import { useState } from "react";
 const App = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   console.log("hello world");
-  console.log("hello world");
-  console.log("hello world");
   return (
     <>
       <Button>Button</Button>
