@@ -4,10 +4,17 @@ import { useState } from "react";
 const App = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   console.log("hello world");
+  console.log("hello world");
+  console.log("hello world");
   return (
     <>
       <Button>Button</Button>
-      <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border w-fit" />
+      <Calendar
+        mode="single"
+        selected={date}
+        onSelect={setDate}
+        className="rounded-md border w-fit"
+      />
     </>
   );
 };
