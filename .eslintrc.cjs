@@ -20,7 +20,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off", // import * from "react" 없이도 코드 작성 가능
     "react-hooks/exhaustive-deps": "off", // 디펜던시 값을 임의로 세팅 할 수 있음
     "@tanstack/query/exhaustive-deps": "error", // tanstack query의 디펜던시 값을 임의로 세팅 할 수 있음
-    "@tanstack/query/prefer-query-object-syntax": "error",
+    // "@tanstack/query/prefer-query-object-syntax": "error",
     "no-console": "warn", // console을 무조건 지우게 셋팅
     /* 
     "@tanstack/query/prefer-query-object-syntax" 룰은 eslint-plugin-query 의 일부로 제공되는 규칙입니다.
@@ -30,5 +30,10 @@ module.exports = {
     "query" 패키지를 사용할 때, 당신의 코드에서 쿼리 객체를 사용하여 데이터 요청을 정의하는 것이 권장되며, 
     이 규칙은 이를 강제하기 위한 것입니다. 예를 들어, 다음은 "query" 패키지를 사용하여 데이터 요청을 정의하는 코드의 예시입니다:    
     */
+  },
+  settings: {
+    react: {
+      version: "detect",
+    },
   },
 };
