@@ -13,12 +13,15 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "@tanstack/query"], // tanstack/query 플러그인 추가
   rules: {
-    "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+    "react-refresh/only-export-components": [
+      "warn",
+      { allowConstantExport: true },
+    ],
     "react/react-in-jsx-scope": "off", // import * from "react" 없이도 코드 작성 가능
     "react-hooks/exhaustive-deps": "off", // 디펜던시 값을 임의로 세팅 할 수 있음
-    "no-console": "warn", // console을 무조건 지우게 셋팅
     "@tanstack/query/exhaustive-deps": "error", // tanstack query의 디펜던시 값을 임의로 세팅 할 수 있음
     "@tanstack/query/prefer-query-object-syntax": "error",
+    "no-console": "warn", // console을 무조건 지우게 셋팅
     /* 
     "@tanstack/query/prefer-query-object-syntax" 룰은 eslint-plugin-query 의 일부로 제공되는 규칙입니다.
     이 규칙은 "query" 패키지를 사용할 때, 쿼리 객체 구문을 사용하도록 권장하는 규칙입니다.
