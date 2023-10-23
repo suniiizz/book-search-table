@@ -3,7 +3,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 const App = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
-  let k;
+  console.log("hello world");
   return (
     <>
       <Button>Button</Button>
