@@ -20,7 +20,6 @@ module.exports = {
     "react/react-in-jsx-scope": "off", // import * from "react" 없이도 코드 작성 가능
     "react-hooks/exhaustive-deps": "off", // 디펜던시 값을 임의로 세팅 할 수 있음
     "@tanstack/query/exhaustive-deps": "error", // tanstack query의 디펜던시 값을 임의로 세팅 할 수 있음
-    // "@tanstack/query/prefer-query-object-syntax": "error",
     "no-console": "warn", // console을 무조건 지우게 셋팅
     /* 
     "@tanstack/query/prefer-query-object-syntax" 룰은 eslint-plugin-query 의 일부로 제공되는 규칙입니다.
