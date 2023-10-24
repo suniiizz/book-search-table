@@ -1,0 +1,3 @@
+const DATEFORMAT_YYYYMMDD_KOR = "yyyy년 MM월 dd일";
+
+export { DATEFORMAT_YYYYMMDD_KOR };
