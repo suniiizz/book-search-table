@@ -1,22 +1,9 @@
-import usePersonTableData from "@/hooks/usePersonTableData";
-import { personData, personColumns } from "@/utils/test";
-import DatePicker from "@/components/date-picker";
-import Table from "@/components/table";
-import { Person } from "test";
-const App = () => {
-  const { tableData, tableColumns } = usePersonTableData<Person>({
-    data: personData,
-    columns: personColumns,
-  });
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import routes from "@/routes";
 
-  return (
-    <>
-      <br />
-      <DatePicker />
-      <br />
-      <Table<Person> tableData={tableData} columns={tableColumns} />
-    </>
-  );
+const App = () => {
+  const router = createBrowserRouter([routes]);
+  return <RouterProvider router={router} />;
 };
 
 export default App;
