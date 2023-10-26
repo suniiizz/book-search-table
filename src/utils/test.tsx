@@ -31,27 +31,45 @@ export const personColumns = [
   {
     id: "firstName",
     header: "아이디",
-    accessorFn: (row: Person) => row.firstName,
+
+    // 정말 key의 value값만 넣고 싶어
+    accessorKey: "firstName",
+
+    // header 컬럼을 그룹화 하고 싶어
+    // columns: [
+    //   {
+    //     header: "아이디",
+    //     accessorKey: "firstName",
+    //     cell: ({ row }: { row: Row<Person> }) => {
+    //       return <>{row.getValue("firstName")}</>;
+    //     },
+    //   },
+    // ]
+
+    // value을 수정해서 정리하고싶어
+    // cell: ({ row }: { row: Row<Person> }) => {
+    //   return <span className="font-bold">{row.getValue("firstName")}</span>;
+    // },
   },
   {
     id: "lastName",
     header: "이름",
-    accessorFn: (row: Person) => row.lastName,
+    accessorKey: "lastName",
   },
-  { id: "age", header: "나이", accessorFn: (row: Person) => row.age },
+  { id: "age", header: "나이", accessorKey: "age" },
   {
     id: "visits",
     header: "전화번호",
-    accessorFn: (row: Person) => row.visits,
+    accessorKey: "visits",
   },
   {
     id: "status",
     header: "상태",
-    accessorFn: (row: Person) => row.status,
+    accessorKey: "status",
   },
   {
     id: "progress",
     header: "진행",
-    accessorFn: (row: Person) => row.progress,
+    accessorKey: "visits",
   },
 ];
