@@ -25,6 +25,102 @@ export const personData: Person[] = [
     status: "Complicated",
     progress: 10,
   },
+  {
+    firstName: "tanner",
+    lastName: "linsley",
+    age: 24,
+    visits: 100,
+    status: "In Relationship",
+    progress: 50,
+  },
+  {
+    firstName: "tandy",
+    lastName: "miller",
+    age: 40,
+    visits: 40,
+    status: "Single",
+    progress: 80,
+  },
+  {
+    firstName: "joe",
+    lastName: "dirte",
+    age: 45,
+    visits: 20,
+    status: "Complicated",
+    progress: 10,
+  },
+  {
+    firstName: "tanner",
+    lastName: "linsley",
+    age: 24,
+    visits: 100,
+    status: "In Relationship",
+    progress: 50,
+  },
+  {
+    firstName: "tandy",
+    lastName: "miller",
+    age: 40,
+    visits: 40,
+    status: "Single",
+    progress: 80,
+  },
+  {
+    firstName: "joe",
+    lastName: "dirte",
+    age: 45,
+    visits: 20,
+    status: "Complicated",
+    progress: 10,
+  },
+  {
+    firstName: "tanner",
+    lastName: "linsley",
+    age: 24,
+    visits: 100,
+    status: "In Relationship",
+    progress: 50,
+  },
+  {
+    firstName: "tandy",
+    lastName: "miller",
+    age: 40,
+    visits: 40,
+    status: "Single",
+    progress: 80,
+  },
+  {
+    firstName: "joe",
+    lastName: "dirte",
+    age: 45,
+    visits: 20,
+    status: "Complicated",
+    progress: 10,
+  },
+  {
+    firstName: "tanner",
+    lastName: "linsley",
+    age: 24,
+    visits: 100,
+    status: "In Relationship",
+    progress: 50,
+  },
+  {
+    firstName: "tandy",
+    lastName: "miller",
+    age: 40,
+    visits: 40,
+    status: "Single",
+    progress: 80,
+  },
+  {
+    firstName: "joe",
+    lastName: "dirte",
+    age: 45,
+    visits: 20,
+    status: "Complicated",
+    progress: 10,
+  },
 ];
 
 export const personColumns = [
@@ -32,7 +128,7 @@ export const personColumns = [
     id: "firstName",
     header: "아이디",
 
-    // 정말 key의 value값만 넣고 싶어
+    // key의 value값만 넣고 싶을 때
     accessorKey: "firstName",
 
     // header 컬럼을 그룹화 하고 싶어
