@@ -8,9 +8,10 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Select from "@/components/select";
+import { Select, SelectWithHookForm } from "@/components/select";
 import { Sheet as SheetIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FormProvider, useForm } from "react-hook-form";
 
 const Main = () => {
   const { tableData, tableColumns } = usePersonTableData<Person>({
@@ -26,12 +27,28 @@ const Main = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  type Test = {
+    volume: string;
+  };
+
+  const methods = useForm<Test>({
+    defaultValues: {
+      volume: "10",
+    },
+  });
+
   return (
-    <>
+    <FormProvider {...methods}>
       <div className="flex gap-2 items-center justify-end mb-2">
         <DatePicker />
         <Select
           onValueChange={(value) => {
+            table.setPageSize(parseInt(value));
+          }}
+        />
+        <SelectWithHookForm
+          registerName="volume"
+          afterValueChange={(value) => {
             table.setPageSize(parseInt(value));
           }}
         />
@@ -42,7 +59,7 @@ const Main = () => {
       </div>
 
       <Table<Person> table={table} />
-    </>
+    </FormProvider>
   );
 };
 

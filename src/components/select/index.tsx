@@ -5,14 +5,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Controller,
+  ControllerRenderProps,
+  FieldValues,
+  useFormContext,
+} from "react-hook-form";
 
-const Select = ({
+type SelectType<T extends FieldValues> = {
+  onValueChange?: (value: string) => void;
+  afterValueChange?: (value: string) => void;
+  defaultValue?: string;
+  registerName?: string;
+  field?: ControllerRenderProps<T>;
+};
+
+const Select = <T extends FieldValues>({
   onValueChange,
-}: {
-  onValueChange: (value: string) => void;
-}) => {
+  defaultValue,
+  field,
+  afterValueChange,
+}: SelectType<T>) => {
   return (
-    <SelectWrap onValueChange={onValueChange} defaultValue="10">
+    <SelectWrap
+      onValueChange={
+        field
+          ? (value) => {
+              field.onChange(value);
+              afterValueChange && afterValueChange(value);
+            }
+          : onValueChange
+      }
+      defaultValue={field ? field.value : defaultValue}
+    >
       <SelectTrigger className="w-[10rem]">
         <SelectValue placeholder={selectOption.title} />
       </SelectTrigger>
@@ -26,7 +51,27 @@ const Select = ({
     </SelectWrap>
   );
 };
-export default Select;
+
+const SelectWithHookForm = ({
+  registerName,
+  afterValueChange,
+}: {
+  registerName: string;
+  afterValueChange?: (value: string) => void;
+}) => {
+  const { control } = useFormContext();
+  return (
+    <Controller
+      control={control}
+      name={registerName}
+      render={({ field }) => (
+        <Select field={field} afterValueChange={afterValueChange} />
+      )}
+    />
+  );
+};
+
+export { Select, SelectWithHookForm };
 
 const selectOption = {
   title: "10개",
