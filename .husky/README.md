@@ -1,4 +1,7 @@
+## husky
+
 - [husky 참고링크](https://xiubindev.tistory.com/136)
+
   - `.husky/_/pre-commit`
     ![Untitled](../src/assets/image/markdown/Untitled.png)
     - **`#!/usr/bin/env sh`**

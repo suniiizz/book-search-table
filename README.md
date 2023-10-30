@@ -41,8 +41,8 @@
 - **사용 스택 정리**
 
   - [react-query](https://github.com/pleasemrlostman/news-search-table/blob/main/src/hooks/README.md)
-  - [husky]()
-  - [eslint]()
+  - [husky](https://github.com/pleasemrlostman/news-search-table/blob/main/.husky/README.md)
+  - [eslint](https://github.com/pleasemrlostman/news-search-table/blob/main/document/eslint.md)
 
 - **Component 제작과정**
 
@@ -50,4 +50,4 @@
 
 - **기타 정리 내용**
 
-  - [route-error]()
+  - [route-error](https://github.com/pleasemrlostman/news-search-table/blob/main/document/route-error.md)
