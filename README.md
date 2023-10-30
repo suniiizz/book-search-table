@@ -38,6 +38,8 @@
 
 ## 📚 기록할 사항들
 
+- **Component 제작과정**
+  - [Select](https://github.com/pleasemrlostman/news-search-table/tree/main/src/components/select)
 - **husyky 세팅**
   - [husky 참고링크](https://xiubindev.tistory.com/136)
   - `.husky/_/pre-commit`
@@ -134,6 +136,7 @@
     
     `404` 에러는 해당 기능을 통해서 쉽게 해결 할 수 있지만 그 외 다른 에러는 React에서 제공해주는 **`ErrorBoundary`** 기능을 학습할 필요가 있어보인다.
     
+
     - ErrorBoundary 참조자료
         - [링크](https://jikor1st.tistory.com/23?category=1271628)
         - [공식 문서](https://ko.legacy.reactjs.org/docs/error-boundaries.html)
