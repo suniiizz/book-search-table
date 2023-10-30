@@ -12,6 +12,8 @@ import { Select, SelectWithHookForm } from "@/components/select";
 import { Sheet as SheetIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
+import { CSVLink } from "react-csv";
+import { makeCSVArray } from "@/utils";
 
 const Main = () => {
   const { tableData, tableColumns } = usePersonTableData<Person>({
@@ -52,10 +54,12 @@ const Main = () => {
             table.setPageSize(parseInt(value));
           }}
         />
-        <Button variant={"outline"} className="flex gap-2">
-          <SheetIcon color="#e5e7eb" />
-          다운로드
-        </Button>
+        <CSVLink data={makeCSVArray<Person>(table)}>
+          <Button variant={"outline"} className="flex gap-2">
+            <SheetIcon color="#e5e7eb" />
+            다운로드
+          </Button>
+        </CSVLink>
       </div>
 
       <Table<Person> table={table} />
