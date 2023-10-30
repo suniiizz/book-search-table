@@ -38,6 +38,8 @@
 
 ## 📚 기록할 사항들
 
+- **사용 스택 정리**
+  - [react-query](https://github.com/pleasemrlostman/news-search-table/blob/main/src/hooks/README.md)
 - **Component 제작과정**
   - [Select](https://github.com/pleasemrlostman/news-search-table/tree/main/src/components/select)
 - **husyky 세팅**
