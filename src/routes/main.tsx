@@ -37,7 +37,6 @@ const Main = () => {
       volume: "10",
     },
   });
-
   return (
     <FormProvider {...methods}>
       <div className="flex gap-2 items-center justify-end mb-2">
