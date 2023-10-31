@@ -60,7 +60,6 @@ const Main = () => {
           </Button>
         </CSVLink>
       </div>
-
       <Table<Person> table={table} />
     </FormProvider>
   );
