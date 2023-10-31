@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import usePersonTableData from "@/hooks/usePersonTableData";
 import { personData, personColumns } from "@/utils/test";
 import DatePicker from "@/components/date-picker";
@@ -9,12 +11,17 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Select, SelectWithHookForm } from "@/components/select";
+import Modal from "@/components/modal";
 import { Sheet as SheetIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { CSVLink } from "react-csv";
 import { makeCSVArray } from "@/utils";
+import { ModalContext } from "@/components/modal/context/ModalContext";
+
 const Main = () => {
+  const { isOpen, onOpenModal } = useContext(ModalContext);
+
   const { tableData, tableColumns } = usePersonTableData<Person>({
     data: personData,
     columns: personColumns,
@@ -38,29 +45,40 @@ const Main = () => {
     },
   });
   return (
-    <FormProvider {...methods}>
-      <div className="flex gap-2 items-center justify-end mb-2">
-        <DatePicker />
-        <Select
-          onValueChange={(value) => {
-            table.setPageSize(parseInt(value));
-          }}
-        />
-        <SelectWithHookForm
-          registerName="volume"
-          afterValueChange={(value) => {
-            table.setPageSize(parseInt(value));
-          }}
-        />
-        <CSVLink data={makeCSVArray<Person>(table)}>
-          <Button variant={"outline"} className="flex gap-2">
-            <SheetIcon color="#e5e7eb" />
-            다운로드
+    <>
+      <FormProvider {...methods}>
+        <div className="flex gap-2 items-center justify-end mb-2">
+          <Button
+            variant={"outline"}
+            className="flex gap-2"
+            onClick={onOpenModal}
+          >
+            OPEN
           </Button>
-        </CSVLink>
-      </div>
-      <Table<Person> table={table} />
-    </FormProvider>
+          <DatePicker />
+          <Select
+            onValueChange={(value) => {
+              table.setPageSize(parseInt(value));
+            }}
+          />
+          <SelectWithHookForm
+            registerName="volume"
+            afterValueChange={(value) => {
+              table.setPageSize(parseInt(value));
+            }}
+          />
+          <CSVLink data={makeCSVArray<Person>(table)}>
+            <Button variant={"outline"} className="flex gap-2">
+              <SheetIcon color="#e5e7eb" />
+              다운로드
+            </Button>
+          </CSVLink>
+        </div>
+        <Table<Person> table={table} />
+      </FormProvider>
+
+      {isOpen && <Modal title="Modal Title">Modal Content</Modal>}
+    </>
   );
 };
 
