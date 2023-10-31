@@ -29,12 +29,17 @@
     </tr>
 </table>
 
-## 🖥️ 기술 스택 및 사용 라이브러리
+## 🖥️ 기술 스택 및 주요 사용 라이브러리
 
-- shadcn/ui
-- react-query
-- react-table
-- vite / eslint / husky
+| Technology | Version |
+| --- | --- |
+| shadcn/ui | 0.4.1 |
+| react-query | ^5.0.5 |
+| react-table | ^8.10.7 |
+| vite | ^4.4.5 |
+| eslint | ^8.45.0 |
+| husky | ^8.0.3 |
+
 
 ## 📚 기록할 사항들
 
