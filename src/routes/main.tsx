@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { CSVLink } from "react-csv";
 import { makeCSVArray } from "@/utils";
-
 const Main = () => {
   const { tableData, tableColumns } = usePersonTableData<Person>({
     data: personData,
