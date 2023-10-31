@@ -1,23 +1,27 @@
 module.exports = {
   types: [
-    { value: "✨ Feat", name: "✨ Feat:\tAdd a new feature" },
-    { value: "🐛 Modify", name: "🐛 Fix:\tModify production, UI,UX code" },
-    { value: "📝 Docs", name: "📝 Docs:\tAdd or update documentation" },
+    { value: "✨ [FEAT]", name: "✨ Feat:\tAdd a new feature" },
+    { value: "🐛 [MODIFY]", name: "🐛 Fix:\tModify production, UI,UX code" },
+    { value: "📝 [DOCS]", name: "📝 Docs:\tAdd or update documentation" },
     {
-      value: "💄 Style",
+      value: "💄 [STYLE]",
       name: "💄 Style:\tAdd or update code format (not updation production, UI,UX code)",
     },
     {
-      value: "🤖 Refactor",
+      value: "🤖 [REFACTOR]",
       name: "🤖 Refactor:\tCode change that neither fixes a bug nor adds a feature",
     },
     {
-      value: "✅ Test",
+      value: "✅ [TEST]",
       name: "✅ Test:\tCode change related with tests cases",
     },
     {
-      value: "🚚 Chore",
+      value: "🚚 [CHORE]",
       name: "🚚 Chore:\tChanges to the build process or auxiliary tools\n\t\tand libraries such as documentation generation",
+    },
+    {
+      value: "🔨 [IMPROVEMENT]",
+      name: "🔨 IMPROVEMENT:\tMake minor improvements",
     },
   ],
   allowCustomScopes: false,
