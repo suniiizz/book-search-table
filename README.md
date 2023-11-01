@@ -45,7 +45,7 @@
 
 - **사용 스택 정리**
 
-  - [react-query](https://github.com/pleasemrlostman/news-search-table/blob/main/src/hooks/README.md)
+  - [react-query](https://github.com/pleasemrlostman/news-search-table/tree/main/src/hooks/query)
   - [husky](https://github.com/pleasemrlostman/news-search-table/blob/main/.husky/README.md)
   - [eslint](https://github.com/pleasemrlostman/news-search-table/blob/main/document/eslint.md)
 
