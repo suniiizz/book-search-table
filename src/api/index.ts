@@ -1,8 +1,10 @@
 import axios from "axios";
 
 const config = {
-  //   baseURL: "",
-  //   withCredentials: true,
+  baseURL: "https://dapi.kakao.com/v3/search",
+  headers: {
+    Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_API_KEY}`,
+  },
 };
 
 const api = axios.create(config);

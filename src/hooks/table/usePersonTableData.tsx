@@ -7,7 +7,7 @@ const usePersonTableData = <T,>({
   data: T[];
   columns: ColumnDef<T>[];
 }) => {
-  const tableData: T[] = useMemo(() => data, []);
+  const tableData: T[] = useMemo(() => data, [data]);
   const tableColumns = useMemo(() => columns, []);
   return { tableData, tableColumns };
 };

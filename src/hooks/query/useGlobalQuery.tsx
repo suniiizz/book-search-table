@@ -1,13 +1,19 @@
 import api from "@/api";
 import { useQuery } from "@tanstack/react-query";
-import { queryInformationType } from "query";
+import { QueryKeyInformation } from "query";
 
-const useGlobalQuery = ({ key, URL }: queryInformationType) => {
+const useGlobalQuery = <T,>(
+  URL: string,
+  params: T,
+  key: QueryKeyInformation,
+) => {
   const { data, isError, isSuccess, error } = useQuery({
-    queryKey: [key, URL],
-    queryFn: () => api.get(URL),
+    queryKey: [key, URL, params],
+    queryFn: () => api.get(URL, { params }),
   });
 
-  return { data, isError, isSuccess, error };
+  const _data = data ? data.data : undefined;
+
+  return { _data, isError, isSuccess, error };
 };
 export default useGlobalQuery;
