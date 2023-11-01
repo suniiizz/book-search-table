@@ -1,6 +1,6 @@
-import useGlobalQuery from "@/hooks/useGlobalQuery";
-import { GET_GLOBAL_REQUEST } from "@/http/api/getRequest";
-import { useGetRequest } from "@/services/useGetRequest";
+import useGlobalQuery from "@/hooks/query/useGlobalQuery";
+import { GET_GLOBAL_REQUEST } from "@/services/request/getRequest";
+import useGetRequest from "@/services/request/useGetRequest";
 
 const ReatcQuery = () => {
   const { data, isLoading, error } = useGetRequest();

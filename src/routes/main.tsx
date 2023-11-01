@@ -1,4 +1,4 @@
-import usePersonTableData from "@/hooks/usePersonTableData";
+import usePersonTableData from "@/hooks/table/usePersonTableData";
 import { personData, personColumns } from "@/utils/test";
 import DatePicker from "@/components/date-picker";
 import Table from "@/components/table";
