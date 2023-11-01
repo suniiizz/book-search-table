@@ -143,9 +143,9 @@ export const personColumns = [
     // ]
 
     // value을 수정해서 정리하고싶어
-    // cell: ({ row }: { row: Row<Person> }) => {
-    //   return <span className="font-bold">{row.getValue("firstName")}</span>;
-    // },
+    cell: ({ row }: { row: Row<Person> }) => {
+      return <span className="font-bold">{row.getValue("firstName")}</span>;
+    },
   },
   {
     id: "lastName",
