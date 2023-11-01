@@ -5,12 +5,15 @@
 - 비동기 데이터를 관리하기 위한 라이브러리이다.
 - Axios나 Fetch API와 같은 fetching 라이브러리와 원활하게 작동되도록 설계되었다.
 
+<br />
+  
 **리액트 쿼리를 쓰는 이유는?**
 
 - 직관적인 API 코드이며 서버 상태 관리에 용이하다.
 - 보일러플레이트를 방지한다.
 - 캐싱을 통해 반복적인 데이터 호출을 방지한다.
 - devtool을 지원하여 데이터 흐름을 파악할 수 있다.
+
   <br />
 
 ## 설치
@@ -23,27 +26,28 @@ npm i @tanstack/react-query-devtools
 ```
 
 <br />
-
+  
 ## 세팅
 
 ```jsx
+import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import App from "@/App.tsx";
-import { AuthContextProvider } from "@/hooks/services/user/context/auth";
+import App from "./App.tsx";
 import "@/index.css";
-import { queryClient } from "@/query/client.ts";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-<QueryClientProvider client={queryClient}>
-<AuthContextProvider>
-  <App />
-</AuthContextProvider>
-<ReactQueryDevtools initialIsOpen={false} />
-</QueryClientProvider>,
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </React.StrictMode>,
 );
 ```
 
@@ -59,12 +63,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 - 컴포넌트 내에 로직 코드가 종속되는 느낌
 - 반복적인 코드 작성
 - 재사용이 어렵고 유사 시 코드 수정이 어렵다.
+
   <br />
 
 - **custom hook을 사용할 경우**
 - 복잡한 로직일 경우 커스텀이 가능하다.
 - 다수의 컴포넌트에서 데이터에 접근할 경우 매번 코드를 작성할 필요 X
 - 재사용과 수정이 용이하다.
+
   <br />
 
 ## useQuery
@@ -130,14 +136,14 @@ export const useGetRequest = () => {
 ### useGlobalQuery.ts
 
 ```jsx
-import axios from "axios";
+import api from "api";
 import useQuery from "@tanstack/react-query";
 import { queryInformationType } from "query";
 
 const useGlobalQuery = ({ key, URL }: queryInformationType) => {
   const { data, isError, isSuccess, error } = useQuery({
     queryKey: [key, URL],
-    queryFn: () => axios.get(URL),
+    queryFn: () => api.get(URL),
   });
 
   return { data, isError, isSuccess, error };
@@ -146,7 +152,7 @@ export default useGlobalQuery;
 ```
 
 - `useGlobalQuery`는 `key`와 `URL`을 받아온다. 이 때 타입은 `queryInformationType`을 가진다.
-- `useQuery`를 호출하여 데이터를 가져온다. `queryKey`와 `queryFn`을 설정하고, `axios`를 사용하여 서버에서 데이터를 가져온다.
+- `useQuery`를 호출하여 데이터를 가져온다. `queryKey`와 `queryFn`을 설정하고, `api`를 사용하여 서버에서 데이터를 가져온다.
 - 데이터를 가져오는데 성공하면 `data`, `isSuccess`, `error`를 반환한다.
 
 ```jsx
