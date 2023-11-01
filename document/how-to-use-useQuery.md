@@ -62,7 +62,7 @@ const useGlobalQuery = <T, U>(
   const { data, isError, isSuccess, refetch, remove, status, error } = useQuery(
     {
       queryKey: [key, params, URL],
-      queryFn: () => http.get(URL, { params }),
+      queryFn: () => api.get(URL, { params }),
       options: option,
     },
   );
@@ -108,7 +108,7 @@ const useGlobalQuery = <T, U>(
   const { data, isError, isSuccess, refetch, remove, status, error } = useQuery(
     {
       queryKey: [key, params, URL],
-      queryFn: () => http.get(URL, { params }),
+      queryFn: () => api.get(URL, { params }),
       options: option,
     },
   );
