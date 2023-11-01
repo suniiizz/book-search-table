@@ -20,7 +20,7 @@ import { makeCSVArray } from "@/utils";
 import { ModalContext } from "@/components/modal/context/ModalContext";
 
 const Main = () => {
-  const { isOpen, onOpenModal } = useContext(ModalContext);
+  const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
 
   const { tableData, tableColumns } = usePersonTableData<Person>({
     data: personData,
@@ -44,6 +44,7 @@ const Main = () => {
       volume: "10",
     },
   });
+
   return (
     <>
       <FormProvider {...methods}>
@@ -77,7 +78,23 @@ const Main = () => {
         <Table<Person> table={table} />
       </FormProvider>
 
-      {isOpen && <Modal title="Modal Title">Modal Content</Modal>}
+      {isOpen && (
+        <Modal title="Modal Title">
+          Modal Content
+          <div className="flex justify-end w-full gap-2">
+            <Button
+              variant={"secondary"}
+              className="flex gap-2"
+              onClick={onCloseModal}
+            >
+              취소
+            </Button>
+            <Button className="flex gap-2" onClick={onCloseModal}>
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </>
   );
 };

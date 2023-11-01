@@ -2,29 +2,15 @@ import { useContext } from "react";
 import { createPortal } from "react-dom";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/modal";
-import { Button } from "@/components/ui/button";
 import { ModalContext } from "@/components/modal/context/ModalContext";
 
-// import {
-//   AlertDialog as ModalWrap,
-//   AlertDialogAction as ModalAction,
-//   AlertDialogCancel as ModalClose,
-//   AlertDialogContent as ModalContent,
-//   AlertDialogDescription as ModalDescription,
-//   AlertDialogFooter as ModalFooter,
-//   AlertDialogHeader as ModalHeader,
-//   AlertDialogTitle as ModalTitle,
-//   AlertDialogTrigger as ModalButton,
-// } from "@/components/ui/modal";
-
-interface Props {
+interface ModalType {
   title: string;
   children: React.ReactNode;
   className?: string;
-  modalButton?: boolean | string;
 }
 
-const Modal = ({ title, children }: Props) => {
+const Modal = ({ title, children }: ModalType) => {
   const { onCloseModal } = useContext(ModalContext);
 
   return (
@@ -42,34 +28,8 @@ const Modal = ({ title, children }: Props) => {
             <AlertDescription className="text-sm text-muted-foreground">
               {children}
             </AlertDescription>
-            <div className="flex justify-end w-full gap-2">
-              <Button
-                variant={"secondary"}
-                className="flex gap-2"
-                onClick={onCloseModal}
-              >
-                취소
-              </Button>
-              <Button className="flex gap-2" onClick={onCloseModal}>
-                확인
-              </Button>
-            </div>
           </Alert>
         </>,
-
-        // <ModalWrap>
-        //   {modalButton && <ModalButton>{modalButton}</ModalButton>}
-        //   <ModalContent>
-        //     <ModalHeader>
-        //       <ModalTitle>{title}</ModalTitle>
-        //       <ModalDescription>{children}</ModalDescription>
-        //     </ModalHeader>
-        //     <ModalFooter>
-        //       <ModalClose>취소</ModalClose>
-        //       <ModalAction>확인</ModalAction>
-        //     </ModalFooter>
-        //   </ModalContent>
-        // </ModalWrap>,
         document.body,
       )}
     </>
