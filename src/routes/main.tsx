@@ -1,4 +1,4 @@
-import usePersonTableData from "@/hooks/table/usePersonTableData";
+import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
 import DatePicker from "@/components/date-picker";
 import Table from "@/components/table";
 import { BookSearchParameter, BookInformationType } from "book-search";
@@ -26,11 +26,12 @@ const Main = () => {
     bookSearchParams,
     "book-search",
   );
-
-  const { tableData, tableColumns } = usePersonTableData<BookInformationType>({
-    data: data?.documents ? data?.documents : [],
-    columns: bookInformationColumns,
-  });
+  const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
+    {
+      data: data?.documents ? data?.documents : [],
+      columns: bookInformationColumns,
+    },
+  );
 
   const table = useReactTable({
     data: tableData,
