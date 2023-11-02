@@ -116,6 +116,8 @@ const useGlobalQuery = <T, U>(
 
 해당 코드에서 저 같은 경우 `queryKey` 배열 값에는 `key`값만 넣어주고 싶었지만 망할 `eslint`에서 자꾸 `params`와 `URL`을 다 넣지 않으면 오류가 발생해 `husky`가 `commit`을 막아버리는 문제가 발생했습니다.
 
+> The following dependencies are missing in your queryKey: URL @tanstack/query/exhaustive-deps
+
 프로젝트 진행을 위해 우선 모든 값을 배열에 넣긴 했지만 어딘가 찜찜한 기분은 여전히 사라지지 않고 현재 진행중입니다.
 
 이렇게 작성한 코드가 나중에 이슈가 생겼을 때 확장성에 문제가 없냐는 고민도 끊임없이 들었습니다.
