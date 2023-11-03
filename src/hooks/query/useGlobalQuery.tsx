@@ -1,5 +1,5 @@
 import api from "@/api";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { UndefinedInitialDataOptions, useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { QueryKeyInformation } from "query";
 
@@ -7,7 +7,7 @@ const useGlobalQuery = <T,>(
   URL: string,
   params: T,
   key: QueryKeyInformation,
-  options?: UseQueryOptions,
+  options?: UndefinedInitialDataOptions,
 ) => {
   const { data, isError, isSuccess, error } = useQuery({
     queryKey: [key, params],
