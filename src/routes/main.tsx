@@ -1,52 +1,52 @@
-import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
+// import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
 import DatePicker from "@/components/date-picker";
-import Table from "@/components/table";
+// import Table from "@/components/table";
 import {
   BookSearchParameter,
-  BookInformationType,
-  BookInformationReturnType,
+  // BookInformationType,
+  // BookInformationReturnType,
 } from "book-search";
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { Select, SelectWithHookForm } from "@/components/select";
-import { Sheet as SheetIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+// import {
+//   getCoreRowModel,
+//   getPaginationRowModel,
+//   useReactTable,
+// } from "@tanstack/react-table";
+// import { Select, SelectWithHookForm } from "@/components/select";
+// import { Sheet as SheetIcon } from "lucide-react";
+// import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
-import { CSVLink } from "react-csv";
-import { makeCSVArray } from "@/utils";
-import useGlobalQuery from "@/hooks/query/useGlobalQuery";
-import { useState } from "react";
-import { bookInformationColumns } from "@/utils/table-data/book";
+// import { CSVLink } from "react-csv";
+// import { makeCSVArray } from "@/utils";
+// import useGlobalQuery from "@/hooks/query/useGlobalQuery";
+// import { useState } from "react";
+// import { bookInformationColumns } from "@/utils/table-data/book";
 const Main = () => {
-  const [bookSearchParams, setBookSearchParams] = useState<BookSearchParameter>(
-    bookSearchParamsDefault,
-  );
+  // const [bookSearchParams, setBookSearchParams] = useState<BookSearchParameter>(
+  //   bookSearchParamsDefault,
+  // );
 
-  const { data } = useGlobalQuery<
-    BookSearchParameter,
-    BookInformationReturnType,
-    BookInformationType[]
-  >("book", bookSearchParams, "book-search", (data) => {
-    return data.data.documents;
-  });
+  // const { data } = useGlobalQuery<
+  //   BookSearchParameter,
+  //   BookInformationReturnType,
+  //   BookInformationType[]
+  // >("book", bookSearchParams, "book-search", (data) => {
+  //   return data.data.documents;
+  // });
 
-  const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
-    {
-      data: data ? data : [],
-      columns: bookInformationColumns,
-    },
-  );
+  // const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
+  //   {
+  //     data: data ? data : [],
+  //     columns: bookInformationColumns,
+  //   },
+  // );
 
-  const table = useReactTable({
-    data: tableData,
-    columns: tableColumns,
-    getCoreRowModel: getCoreRowModel(),
-    // 페이지네이션을 추가해주려면 해당 코드를 추가해줘야함
-    getPaginationRowModel: getPaginationRowModel(),
-  });
+  // const table = useReactTable({
+  //   data: tableData,
+  //   columns: tableColumns,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   // 페이지네이션을 추가해주려면 해당 코드를 추가해줘야함
+  //   getPaginationRowModel: getPaginationRowModel(),
+  // });
 
   const methods = useForm<BookSearchParameter>({
     defaultValues: bookSearchParamsDefault,
@@ -56,7 +56,7 @@ const Main = () => {
     <FormProvider {...methods}>
       <div className="flex gap-2 items-center justify-end mb-2">
         <DatePicker />
-        <Select
+        {/* <Select
           onValueChange={(value) => {
             setBookSearchParams((prev) => {
               return { ...prev, size: value };
@@ -78,9 +78,9 @@ const Main = () => {
             <SheetIcon color="#e5e7eb" />
             다운로드
           </Button>
-        </CSVLink>
+        </CSVLink> */}
       </div>
-      <Table<BookInformationType> table={table} />
+      {/* <Table<BookInformationType> table={table} /> */}
     </FormProvider>
   );
 };
