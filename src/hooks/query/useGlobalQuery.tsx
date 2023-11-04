@@ -9,7 +9,6 @@ const useGlobalQuery = <T, K, D>(
   key: QueryKeyInformation,
   callback?: (data: AxiosResponse<K>) => D,
   options?: UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
-  // options?: UseQueryOptions<QueryFunction<K>>,
 ) => {
   const { data, isError, isSuccess, error } = useQuery({
     queryKey: [key, params],
@@ -18,14 +17,5 @@ const useGlobalQuery = <T, K, D>(
     ...options,
   });
   return { data, isError, isSuccess, error };
-
-  // const axiosReturnData = data as AxiosResponse;
-  // if (data) {
-  //   return { _data, isError, isSuccess, error };
-  //   const _data = axiosReturnData?.data;
-  // } else {
-  //   const _data = {};
-  //   return { _data, isError, isSuccess, error };
-  // }
 };
 export default useGlobalQuery;
