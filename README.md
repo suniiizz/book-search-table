@@ -56,3 +56,7 @@
 - **기타 정리 내용**
 
   - [route-error](https://github.com/pleasemrlostman/news-search-table/blob/main/document/route-error.md)
+
+- **리팩토링**
+
+  - [useGloblQuery](https://github.com/pleasemrlostman/book-search-table/blob/main/document/refactoring/useGlobalQuery.md)
