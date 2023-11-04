@@ -6,6 +6,7 @@ declare module "book-search" {
     size: number | string;
     target: string;
   };
+
   type BookInformationType = {
     authors: string[];
     contents: string;
@@ -19,5 +20,14 @@ declare module "book-search" {
     title: string;
     translators: string[];
     url: string;
+  };
+  type BookInformationMetaType = {
+    is_end: boolean;
+    pageable_count: number;
+    total_count: number;
+  };
+  type BookInformationReturnType = {
+    documents: BookInformationType[];
+    meta: BookInformationMetaType;
   };
 }

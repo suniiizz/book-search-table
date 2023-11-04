@@ -1,7 +1,11 @@
 import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
 import DatePicker from "@/components/date-picker";
 import Table from "@/components/table";
-import { BookSearchParameter, BookInformationType } from "book-search";
+import {
+  BookSearchParameter,
+  BookInformationType,
+  BookInformationReturnType,
+} from "book-search";
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -21,14 +25,17 @@ const Main = () => {
     bookSearchParamsDefault,
   );
 
-  const { _data: data } = useGlobalQuery(
-    "book",
-    bookSearchParams,
-    "book-search",
-  );
+  const { data } = useGlobalQuery<
+    BookSearchParameter,
+    BookInformationReturnType,
+    BookInformationType[]
+  >("book", bookSearchParams, "book-search", (data) => {
+    return data.data.documents;
+  });
+
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
     {
-      data: data?.documents ? data?.documents : [],
+      data: data ? data : [],
       columns: bookInformationColumns,
     },
   );
