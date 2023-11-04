@@ -1,3 +1,4 @@
+import { Row } from "@tanstack/react-table";
 import { Person } from "test";
 
 export const personData: Person[] = [
