@@ -28,14 +28,14 @@ const Main = () => {
   const { data } = useGlobalQuery<
     BookSearchParameter,
     BookInformationReturnType,
-    BookInformationType[]
+    BookInformationReturnType
   >("book", bookSearchParams, "book-search", (data) => {
-    return data.data.documents;
+    return data.data;
   });
 
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
     {
-      data: data ? data : [],
+      data: data?.documents ? data.documents : [],
       columns: bookInformationColumns,
     },
   );
