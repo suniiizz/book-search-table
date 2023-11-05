@@ -192,3 +192,61 @@ after처럼 코드를 사용할 수 있게 됐다.
 또한 이젠 `useQuery`의 다양한 `option`값들을 제어할 수 있어 설정값을 수정해 해당 컴포넌트에 필요한 로직을 작성 할 수 있게됐다<br>
 하지만 여전히 아쉬운 점은 존재한다 가령 `select`의 `callback`함수를 익명함수로 작성해주지 않으면 매번 `AxiosResponse<K>` 같은 타입을 작성해줘야하는 불편함이 존재했다.<br><br>
 그러나 확실히 이전보다는 더 나은 코드를 작성했다는 뿌듯함은 있다. 이번 프로젝트에서는 따로 `useMutation`을 작성하지 않지만 다음 프로젝트에서는 `useMutation`도 글로벌하게 만들어서 보다 더 선언적인 코드를 작성할 수 있게 만들어 봐야겠다.
+
+---
+
+## 20231105 2차 리팩토링
+
+```tsx
+const useGlobalQuery = <T, K, D>(
+  URL: string,
+  params: T,
+  key: QueryKeyInformation,
+  callback?: (data: AxiosResponse<K>) => D,
+  options?: UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+) => {
+  const { data, isError, isSuccess, error } = useQuery({
+    queryKey: [key, params],
+    queryFn: () => api.get(URL, { params }),
+    select: callback,
+    ...options,
+  });
+  return { data, isError, isSuccess, error };
+};
+```
+
+기존의 `useGlobalQuery`는 `options`의 타입을 `UseQueryOptions`값을 주었다. 그러다보니 `options`값에 `queryKey`, `queryFn` 값이 필수로 들어가 있는데 `options`값을 인자로 넘길 때 해당 값들을 넘겨주지 않아 에러가 발생했었다, (이러한 문제를 몰라서 `select`값을 따로 인자로 뺐음)<br><br>
+
+해당 이슈를 해결하기위해 `Omit`값을 이용해서 이미 주어진 값들은 타입에서 제거했다
+
+```tsx
+const useGlobalQuery = <T, K, D>(
+  URL: string,
+  params: T,
+  key: QueryKeyInformation,
+  options?: Omit<
+    UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+    "queryKey" | "queryFn"
+  >,
+) => {
+  const { data, isError, isSuccess, error } = useQuery({
+    queryKey: [key, params],
+    queryFn: () => api.get(URL, { params }),
+    ...options,
+  });
+  return { data, isError, isSuccess, error };
+};
+```
+
+```tsx
+const { data } = useGlobalQuery<
+  BookSearchParameter,
+  BookInformationReturnType,
+  BookInformationReturnType
+>("book", bookSearchParams, "book-search", {
+  select: (data) => data.data,
+  staleTime: 5000, // 임의로 넣은 코드
+});
+```
+
+해당 코드처럼 `options`값을 객체로 전달 가능해졌다

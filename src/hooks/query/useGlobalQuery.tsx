@@ -7,13 +7,14 @@ const useGlobalQuery = <T, K, D>(
   URL: string,
   params: T,
   key: QueryKeyInformation,
-  callback?: (data: AxiosResponse<K>) => D,
-  options?: UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+  options?: Omit<
+    UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+    "queryKey" | "queryFn"
+  >,
 ) => {
   const { data, isError, isSuccess, error } = useQuery({
     queryKey: [key, params],
     queryFn: () => api.get(URL, { params }),
-    select: callback,
     ...options,
   });
   return { data, isError, isSuccess, error };

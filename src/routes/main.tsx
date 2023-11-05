@@ -29,8 +29,8 @@ const Main = () => {
     BookSearchParameter,
     BookInformationReturnType,
     BookInformationReturnType
-  >("book", bookSearchParams, "book-search", (data) => {
-    return data.data;
+  >("book", bookSearchParams, "book-search", {
+    select: (data) => data.data,
   });
 
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
