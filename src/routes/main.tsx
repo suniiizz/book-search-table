@@ -1,5 +1,5 @@
 import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
-import DatePicker from "@/components/date-picker";
+import { DatePicker } from "@/components/date-picker";
 import Table from "@/components/table";
 import {
   BookSearchParameter,
@@ -22,6 +22,8 @@ import { useState } from "react";
 import { bookInformationColumns } from "@/utils/table-data/book";
 import { keepPreviousData } from "@tanstack/react-query";
 import Pagi from "@/components/pagi";
+import { DevTool } from "@hookform/devtools";
+
 const Main = () => {
   const [bookSearchParams, setBookSearchParams] = useState<BookSearchParameter>(
     bookSearchParamsDefault,
@@ -56,48 +58,52 @@ const Main = () => {
   });
 
   return (
-    <FormProvider {...methods}>
-      <div className="flex gap-2 items-center justify-end mb-2">
-        <DatePicker />
-        <Select
-          onValueChange={(value) => {
+    <>
+      <FormProvider {...methods}>
+        <div className="flex gap-2 items-center justify-end mb-2">
+          <DatePicker />
+          {/* <DatePickerWithHookForm registerName="date" /> */}
+          <Select
+            onValueChange={(value) => {
+              setBookSearchParams((prev) => {
+                return { ...prev, size: value };
+              });
+              table.setPageSize(parseInt(value));
+            }}
+          />
+          <SelectWithHookForm
+            registerName="size"
+            afterValueChange={(value) => {
+              setBookSearchParams((prev) => {
+                return { ...prev, size: value };
+              });
+              table.setPageSize(parseInt(value));
+            }}
+          />
+          <CSVLink data={makeCSVArray<BookInformationType>(table)}>
+            <Button variant={"outline"} className="flex gap-2">
+              <SheetIcon color="#e5e7eb" />
+              다운로드
+            </Button>
+          </CSVLink>
+        </div>
+        <Table<BookInformationType> table={table} />
+        <Pagi
+          total={data?.meta.pageable_count}
+          defaultPageSize={bookSearchParams.size as number}
+          current={bookSearchParams.page}
+          onChange={(page) => {
             setBookSearchParams((prev) => {
-              return { ...prev, size: value };
+              return {
+                ...prev,
+                page,
+              };
             });
-            table.setPageSize(parseInt(value));
           }}
         />
-        <SelectWithHookForm
-          registerName="size"
-          afterValueChange={(value) => {
-            setBookSearchParams((prev) => {
-              return { ...prev, size: value };
-            });
-            table.setPageSize(parseInt(value));
-          }}
-        />
-        <CSVLink data={makeCSVArray<BookInformationType>(table)}>
-          <Button variant={"outline"} className="flex gap-2">
-            <SheetIcon color="#e5e7eb" />
-            다운로드
-          </Button>
-        </CSVLink>
-      </div>
-      <Table<BookInformationType> table={table} />
-      <Pagi
-        total={data?.meta.pageable_count}
-        defaultPageSize={bookSearchParams.size as number}
-        current={bookSearchParams.page}
-        onChange={(page) => {
-          setBookSearchParams((prev) => {
-            return {
-              ...prev,
-              page,
-            };
-          });
-        }}
-      />
-    </FormProvider>
+      </FormProvider>
+      <DevTool control={methods.control} />
+    </>
   );
 };
 
