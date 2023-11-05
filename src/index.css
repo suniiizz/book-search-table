@@ -4,7 +4,10 @@
 
 @font-face {
   font-family: "SUIT";
-  src: url("./assets/fonts/SUIT/SUIT-Bold.eot") format("eot"), url("./assets/fonts/SUIT/SUIT-Bold.ttf") format("ttf"), url("./assets/fonts/SUIT/SUIT-Bold.woff") format("woff"),
+  src:
+    url("./assets/fonts/SUIT/SUIT-Bold.eot") format("eot"),
+    url("./assets/fonts/SUIT/SUIT-Bold.ttf") format("ttf"),
+    url("./assets/fonts/SUIT/SUIT-Bold.woff") format("woff"),
     url("./assets/fonts/SUIT/SUIT-Bold.woff2") format("woff2");
   font-style: normal;
   font-weight: 800;
@@ -12,7 +15,10 @@
 
 @font-face {
   font-family: "SUIT";
-  src: url("./assets/fonts/SUIT/SUIT-SemiBold.eot") format("eot"), url("./assets/fonts/SUIT/SUIT-SemiBold.ttf") format("ttf"), url("./assets/fonts/SUIT/SUIT-SemiBold.woff") format("woff"),
+  src:
+    url("./assets/fonts/SUIT/SUIT-SemiBold.eot") format("eot"),
+    url("./assets/fonts/SUIT/SUIT-SemiBold.ttf") format("ttf"),
+    url("./assets/fonts/SUIT/SUIT-SemiBold.woff") format("woff"),
     url("./assets/fonts/SUIT/SUIT-SemiBold.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
@@ -20,7 +26,10 @@
 
 @font-face {
   font-family: "SUIT";
-  src: url("./assets/fonts/SUIT/SUIT-Regular.eot") format("eot"), url("./assets/fonts/SUIT/SUIT-Regular.ttf") format("ttf"), url("./assets/fonts/SUIT/SUIT-Regular.woff") format("woff"),
+  src:
+    url("./assets/fonts/SUIT/SUIT-Regular.eot") format("eot"),
+    url("./assets/fonts/SUIT/SUIT-Regular.ttf") format("ttf"),
+    url("./assets/fonts/SUIT/SUIT-Regular.woff") format("woff"),
     url("./assets/fonts/SUIT/SUIT-Regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
@@ -28,7 +37,10 @@
 
 @font-face {
   font-family: "SUIT";
-  src: url("./assets/fonts/SUIT/SUIT-Light.eot") format("eot"), url("./assets/fonts/SUIT/SUIT-Light.ttf") format("ttf"), url("./assets/fonts/SUIT/SUIT-Light.woff") format("woff"),
+  src:
+    url("./assets/fonts/SUIT/SUIT-Light.eot") format("eot"),
+    url("./assets/fonts/SUIT/SUIT-Light.ttf") format("ttf"),
+    url("./assets/fonts/SUIT/SUIT-Light.woff") format("woff"),
     url("./assets/fonts/SUIT/SUIT-Light.woff2") format("woff2");
   font-style: normal;
   font-weight: 300;
@@ -88,7 +100,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
@@ -108,4 +122,10 @@
   .container {
     @apply px-4;
   }
+}
+.rc-pagination-item {
+  @apply cursor-pointer items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex gap-2;
+}
+.rc-pagination-item-active {
+  @apply font-extrabold underline;
 }

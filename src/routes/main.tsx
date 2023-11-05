@@ -20,6 +20,8 @@ import { makeCSVArray } from "@/utils";
 import useGlobalQuery from "@/hooks/query/useGlobalQuery";
 import { useState } from "react";
 import { bookInformationColumns } from "@/utils/table-data/book";
+import { keepPreviousData } from "@tanstack/react-query";
+import Pagi from "@/components/pagi";
 const Main = () => {
   const [bookSearchParams, setBookSearchParams] = useState<BookSearchParameter>(
     bookSearchParamsDefault,
@@ -31,6 +33,7 @@ const Main = () => {
     BookInformationReturnType
   >("book", bookSearchParams, "book-search", {
     select: (data) => data.data,
+    placeholderData: keepPreviousData,
   });
 
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
@@ -81,6 +84,19 @@ const Main = () => {
         </CSVLink>
       </div>
       <Table<BookInformationType> table={table} />
+      <Pagi
+        total={data?.meta.pageable_count}
+        defaultPageSize={bookSearchParams.size as number}
+        current={bookSearchParams.page}
+        onChange={(page) => {
+          setBookSearchParams((prev) => {
+            return {
+              ...prev,
+              page,
+            };
+          });
+        }}
+      />
     </FormProvider>
   );
 };
@@ -91,6 +107,6 @@ const bookSearchParamsDefault = {
   query: "가와바타 야스나리",
   sort: "accuracy",
   page: 1,
-  size: "10",
+  size: "5",
   target: "",
 };

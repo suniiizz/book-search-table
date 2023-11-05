@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { Row } from "@tanstack/react-table";
 import { BookInformationType } from "book-search";
 
@@ -34,7 +35,7 @@ const bookInformationColumns = [
       return (
         <div className="flex flex-col items-center justify-center gap-0.5">
           {isSalePrice && (
-            <span className={isSalePrice && "line-through"}>
+            <span className={isSalePrice && "line-through text-gray-400"}>
               {row.original.sale_price.toLocaleString("ko-KR")}원
             </span>
           )}
@@ -61,4 +62,13 @@ const bookInformationColumns = [
   },
 ];
 
-export { bookInformationColumns };
+const bookInformationColumnsSkeleton = [
+  {
+    id: "thumbnail",
+    header: "이미지",
+    accessorKey: "thumbnail",
+    cell: () => <Skeleton className="w-[120px] h-[174px]" />,
+  },
+];
+
+export { bookInformationColumns, bookInformationColumnsSkeleton };
