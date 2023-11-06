@@ -250,3 +250,39 @@ const { data } = useGlobalQuery<
 ```
 
 해당 코드처럼 `options`값을 객체로 전달 가능해졌다
+
+## 20231106 3차 리팩토링
+
+> `select`를 이용해서 `AxiosResponse<K>` 타입이아닌 데이터를 조작해서 새롭게 리턴해줄 경우에는 세번째 제네릭 자리에 실제로 받을 타입을 작성해줘야하지만. `<K>` 제네릭 타입을 그대로 받아 사용할 일도 빈번하다. 그래서 D의 값을 기본적으로 K와 같게 세팅하여 data를 수정해서 전달해 줄 이유가 없을 때는 세번쨰 제네릭 자리를 작성하지 않아도 오류가 없이 수정했다.
+
+```tsx
+const useGlobalQuery = <T, K, D = K>(
+  URL: string,
+  params: T,
+  key: QueryKeyInformation,
+  options?: Omit<
+    UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+    "queryKey" | "queryFn"
+  >,
+) => {
+  const { data, isError, isSuccess, error } = useQuery({
+    queryKey: [key, params],
+    queryFn: () => api.get(URL, { params }),
+    ...options,
+  });
+  return { data, isError, isSuccess, error };
+};
+export default useGlobalQuery;
+```
+
+```tsx
+const { data } = useGlobalQuery<BookSearchParameter, BookInformationReturnType>(
+  "book",
+  bookSearchParams,
+  "book-search",
+  {
+    select: (data) => data.data,
+    placeholderData: keepPreviousData,
+  },
+);
+```
