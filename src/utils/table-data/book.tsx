@@ -1,14 +1,18 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Row } from "@tanstack/react-table";
 import { BookInformationType } from "book-search";
-
-const bookInformationColumns = [
+const bookInformationColumns = (onOpenModal: () => void) => [
   {
     id: "thumbnail",
     header: "이미지",
     accessorKey: "thumbnail",
     cell: ({ row }: { row: Row<BookInformationType> }) => (
-      <img src={row.original.thumbnail} alt="book-image" />
+      <img
+        src={row.original.thumbnail}
+        className="cursor-pointer"
+        alt="book-image"
+        onClick={onOpenModal}
+      />
     ),
   },
   {

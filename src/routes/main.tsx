@@ -1,5 +1,5 @@
 import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
-import { DatePicker } from "@/components/date-picker";
+import { DatePickerWithHookForm } from "@/components/date-picker";
 import Table from "@/components/table";
 import {
   BookSearchParameter,
@@ -11,7 +11,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Select, SelectWithHookForm } from "@/components/select";
+import { SelectWithHookForm } from "@/components/select";
 import Modal from "@/components/modal";
 import { Sheet as SheetIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,7 +35,6 @@ const Main = () => {
 
   const { data } = useGlobalQuery<
     BookSearchParameter,
-    BookInformationReturnType,
     BookInformationReturnType
   >("book", bookSearchParams, "book-search", {
     select: (data) => data.data,
@@ -45,7 +44,7 @@ const Main = () => {
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
     {
       data: data?.documents ? data.documents : [],
-      columns: bookInformationColumns,
+      columns: bookInformationColumns(onOpenModal),
     },
   );
 
@@ -72,22 +71,20 @@ const Main = () => {
           >
             OPEN
           </Button>
-          <DatePicker />
-          {/* <DatePickerWithHookForm registerName="date" /> */}
-          <Select
+          {/* <DatePicker /> */}
+          <DatePickerWithHookForm registerName="date" />
+          {/* <Select
             onValueChange={(value) => {
               setBookSearchParams((prev) => {
                 return { ...prev, size: value };
               });
               table.setPageSize(parseInt(value));
             }}
-          />
+          /> */}
           <SelectWithHookForm
             registerName="size"
             afterValueChange={(value) => {
-              setBookSearchParams((prev) => {
-                return { ...prev, size: value };
-              });
+              setBookSearchParams((prev) => ({ ...prev, size: value }));
               table.setPageSize(parseInt(value));
             }}
           />
@@ -104,12 +101,10 @@ const Main = () => {
           defaultPageSize={bookSearchParams.size as number}
           current={bookSearchParams.page}
           onChange={(page) => {
-            setBookSearchParams((prev) => {
-              return {
-                ...prev,
-                page,
-              };
-            });
+            setBookSearchParams((prev) => ({
+              ...prev,
+              page,
+            }));
           }}
         />
       </FormProvider>

@@ -3,7 +3,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { QueryKeyInformation } from "query";
 
-const useGlobalQuery = <T, K, D>(
+const useGlobalQuery = <T, K, D = K>(
   URL: string,
   params: T,
   key: QueryKeyInformation,

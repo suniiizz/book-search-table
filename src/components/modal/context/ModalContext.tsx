@@ -23,13 +23,8 @@ export const ModalContext = createContext<ModalContextType>({
 export const ModalContextProvider = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpenModal = useCallback(() => {
-    setIsOpen(true);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+  const handleOpenModal = useCallback(() => setIsOpen(true), []);
+  const handleCloseModal = useCallback(() => setIsOpen(false), []);
 
   return (
     <ModalContext.Provider
