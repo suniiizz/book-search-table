@@ -262,7 +262,7 @@ const Select = <T extends FieldValues>({
 />
 // react-hook-form과 사용 할 때
 <SelectWithHookForm
-	registerName="volume"
+	registerName="size"
 	afterValueChange={(value) => {
 		table.setPageSize(parseInt(value));
 	}}

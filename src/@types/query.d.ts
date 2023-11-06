@@ -5,8 +5,5 @@ declare module "query" {
     options?: UseQueryOptions<TQueryFn>;
   }
 
-  export interface queryInformationType {
-    key: string;
-    URL: string;
-  }
+  export type QueryKeyInformation = string;
 }

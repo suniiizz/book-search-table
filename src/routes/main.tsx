@@ -1,10 +1,11 @@
-import { useContext } from "react";
-
-import usePersonTableData from "@/hooks/usePersonTableData";
-import { personData, personColumns } from "@/utils/test";
-import DatePicker from "@/components/date-picker";
+import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
+import { DatePicker } from "@/components/date-picker";
 import Table from "@/components/table";
-import { Person } from "test";
+import {
+  BookSearchParameter,
+  BookInformationType,
+  BookInformationReturnType,
+} from "book-search";
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -17,15 +18,36 @@ import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { CSVLink } from "react-csv";
 import { makeCSVArray } from "@/utils";
+import { useContext } from "react";
 import { ModalContext } from "@/components/modal/context/ModalContext";
+import useGlobalQuery from "@/hooks/query/useGlobalQuery";
+import { useState } from "react";
+import { bookInformationColumns } from "@/utils/table-data/book";
+import { keepPreviousData } from "@tanstack/react-query";
+import Pagi from "@/components/pagi";
+import { DevTool } from "@hookform/devtools";
 
 const Main = () => {
   const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
+  const [bookSearchParams, setBookSearchParams] = useState<BookSearchParameter>(
+    bookSearchParamsDefault,
+  );
 
-  const { tableData, tableColumns } = usePersonTableData<Person>({
-    data: personData,
-    columns: personColumns,
+  const { data } = useGlobalQuery<
+    BookSearchParameter,
+    BookInformationReturnType,
+    BookInformationReturnType
+  >("book", bookSearchParams, "book-search", {
+    select: (data) => data.data,
+    placeholderData: keepPreviousData,
   });
+
+  const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
+    {
+      data: data?.documents ? data.documents : [],
+      columns: bookInformationColumns,
+    },
+  );
 
   const table = useReactTable({
     data: tableData,
@@ -35,14 +57,8 @@ const Main = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  type Test = {
-    volume: string;
-  };
-
-  const methods = useForm<Test>({
-    defaultValues: {
-      volume: "10",
-    },
+  const methods = useForm<BookSearchParameter>({
+    defaultValues: bookSearchParamsDefault,
   });
 
   return (
@@ -57,27 +73,47 @@ const Main = () => {
             OPEN
           </Button>
           <DatePicker />
+          {/* <DatePickerWithHookForm registerName="date" /> */}
           <Select
             onValueChange={(value) => {
+              setBookSearchParams((prev) => {
+                return { ...prev, size: value };
+              });
               table.setPageSize(parseInt(value));
             }}
           />
           <SelectWithHookForm
-            registerName="volume"
+            registerName="size"
             afterValueChange={(value) => {
+              setBookSearchParams((prev) => {
+                return { ...prev, size: value };
+              });
               table.setPageSize(parseInt(value));
             }}
           />
-          <CSVLink data={makeCSVArray<Person>(table)}>
+          <CSVLink data={makeCSVArray<BookInformationType>(table)}>
             <Button variant={"outline"} className="flex gap-2">
               <SheetIcon color="#e5e7eb" />
               다운로드
             </Button>
           </CSVLink>
         </div>
-        <Table<Person> table={table} />
+        <Table<BookInformationType> table={table} />
+        <Pagi
+          total={data?.meta.pageable_count}
+          defaultPageSize={bookSearchParams.size as number}
+          current={bookSearchParams.page}
+          onChange={(page) => {
+            setBookSearchParams((prev) => {
+              return {
+                ...prev,
+                page,
+              };
+            });
+          }}
+        />
       </FormProvider>
-
+      <DevTool control={methods.control} />
       {isOpen && (
         <Modal title="Modal Title">
           Modal Content
@@ -100,3 +136,11 @@ const Main = () => {
 };
 
 export default Main;
+
+const bookSearchParamsDefault = {
+  query: "가와바타 야스나리",
+  sort: "accuracy",
+  page: 1,
+  size: "5",
+  target: "",
+};

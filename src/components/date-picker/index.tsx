@@ -14,8 +14,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { DATEFORMAT_YYYYMMDD_KOR } from "@/utils/const";
-const DatePicker = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
+import {
+  Controller,
+  ControllerRenderProps,
+  FieldValues,
+  useFormContext,
+} from "react-hook-form";
+import { useEffect } from "react";
+const DatePicker = <T extends FieldValues>({
+  className,
+  field,
+}: React.HTMLAttributes<HTMLDivElement> & {
+  field?: ControllerRenderProps<T>;
+}) => {
   const [date, setDate] = React.useState<DateRange | undefined>();
+  useEffect(() => {
+    if (!date) return;
+    field?.onChange(date);
+  }, [date]);
 
   return (
     <div className={cn("grid gap-2", className ?? "")}>
@@ -59,4 +75,15 @@ const DatePicker = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   );
 };
 
-export default DatePicker;
+const DatePickerWithHookForm = ({ registerName }: { registerName: string }) => {
+  const { control } = useFormContext();
+  return (
+    <Controller
+      control={control}
+      name={registerName}
+      render={({ field }) => <DatePicker field={field} />}
+    />
+  );
+};
+
+export { DatePicker, DatePickerWithHookForm };
