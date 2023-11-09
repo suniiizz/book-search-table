@@ -5,6 +5,7 @@ declare module "book-search" {
     page: number;
     size: number | string;
     target: string;
+    search: string;
   };
 
   type BookInformationType = {

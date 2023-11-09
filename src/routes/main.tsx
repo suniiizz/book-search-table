@@ -26,6 +26,10 @@ import { bookInformationColumns } from "@/utils/table-data/book";
 import { keepPreviousData } from "@tanstack/react-query";
 import Pagi from "@/components/pagi";
 import { DevTool } from "@hookform/devtools";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormSchema } from "@/utils/zod";
+import { InputWithHookForm } from "@/components/input";
 
 const Main = () => {
   const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
@@ -56,57 +60,65 @@ const Main = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const methods = useForm<BookSearchParameter>({
+  const methods = useForm<z.infer<typeof FormSchema>>({
     defaultValues: bookSearchParamsDefault,
+    resolver: zodResolver(FormSchema), // zod 유효성 검사를 위해 resolver 추가
   });
+
+  const handleSubmit = (data: z.infer<typeof FormSchema>) => {
+    data;
+  };
 
   return (
     <>
       <FormProvider {...methods}>
-        <div className="flex gap-2 items-center justify-end mb-2">
-          <Button
-            variant={"outline"}
-            className="flex gap-2"
-            onClick={onOpenModal}
-          >
-            OPEN
-          </Button>
-          {/* <DatePicker /> */}
-          <DatePickerWithHookForm registerName="date" />
-          {/* <Select
-            onValueChange={(value) => {
+        <form onSubmit={methods.handleSubmit(handleSubmit)}>
+          <div className="flex gap-2 justify-end mb-2">
+            <div className="flex flex-col">
+              <InputWithHookForm registerName="search" />
+            </div>
+            <Button>검색</Button>
+            {/* <DatePicker /> */}
+            <DatePickerWithHookForm registerName="date" />
+            {/* <Select
+              onValueChange={(value) => {
+                setBookSearchParams((prev) => {
+                  return { ...prev, size: value };
+                });
+                table.setPageSize(parseInt(value));
+              }}
+            /> */}
+            <SelectWithHookForm
+              registerName="size"
+              afterValueChange={(value) => {
+                setBookSearchParams((prev) => {
+                  return { ...prev, size: value };
+                });
+                table.setPageSize(parseInt(value));
+              }}
+            />
+            <CSVLink data={makeCSVArray<BookInformationType>(table)}>
+              <Button variant={"outline"} className="flex gap-2">
+                <SheetIcon color="#e5e7eb" />
+                다운로드
+              </Button>
+            </CSVLink>
+          </div>
+          <Table<BookInformationType> table={table} />
+          <Pagi
+            total={data?.meta.pageable_count}
+            defaultPageSize={bookSearchParams.size as number}
+            current={bookSearchParams.page}
+            onChange={(page) => {
               setBookSearchParams((prev) => {
-                return { ...prev, size: value };
+                return {
+                  ...prev,
+                  page,
+                };
               });
-              table.setPageSize(parseInt(value));
-            }}
-          /> */}
-          <SelectWithHookForm
-            registerName="size"
-            afterValueChange={(value) => {
-              setBookSearchParams((prev) => ({ ...prev, size: value }));
-              table.setPageSize(parseInt(value));
             }}
           />
-          <CSVLink data={makeCSVArray<BookInformationType>(table)}>
-            <Button variant={"outline"} className="flex gap-2">
-              <SheetIcon color="#e5e7eb" />
-              다운로드
-            </Button>
-          </CSVLink>
-        </div>
-        <Table<BookInformationType> table={table} />
-        <Pagi
-          total={data?.meta.pageable_count}
-          defaultPageSize={bookSearchParams.size as number}
-          current={bookSearchParams.page}
-          onChange={(page) => {
-            setBookSearchParams((prev) => ({
-              ...prev,
-              page,
-            }));
-          }}
-        />
+        </form>
       </FormProvider>
       <DevTool control={methods.control} />
       {isOpen && (
@@ -138,4 +150,5 @@ const bookSearchParamsDefault = {
   page: 1,
   size: "5",
   target: "",
+  search: "",
 };
