@@ -1,7 +1,13 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Row } from "@tanstack/react-table";
 import { BookInformationType } from "book-search";
-const bookInformationColumns = (onOpenModal: () => void) => [
+const bookInformationColumns = ({
+  onOpenModal,
+  setSelectedBook,
+}: {
+  onOpenModal: () => void;
+  setSelectedBook: React.Dispatch<React.SetStateAction<BookInformationType>>;
+}) => [
   {
     id: "thumbnail",
     header: "이미지",
@@ -9,9 +15,12 @@ const bookInformationColumns = (onOpenModal: () => void) => [
     cell: ({ row }: { row: Row<BookInformationType> }) => (
       <img
         src={row.original.thumbnail}
-        className="cursor-pointer"
+        className="cursor-pointer w-full"
         alt="book-image"
-        onClick={onOpenModal}
+        onClick={() => {
+          setSelectedBook(row.original);
+          onOpenModal();
+        }}
       />
     ),
   },

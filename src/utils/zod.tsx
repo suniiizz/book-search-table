@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 const FormSchema = z.object({
-  search: z
+  query: z
     .string()
     .min(2, {
       message: "최소 2글자 이상",

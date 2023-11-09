@@ -1,5 +1,4 @@
 import useMemoizedTableData from "@/hooks/table/useMemoizedTableData";
-import { DatePickerWithHookForm } from "@/components/date-picker";
 import Table from "@/components/table";
 import {
   BookSearchParameter,
@@ -33,6 +32,9 @@ import { InputWithHookForm } from "@/components/input";
 
 const Main = () => {
   const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
+  const [selectedBook, setSelectedBook] = useState<BookInformationType>(
+    selectedBookDefaultValue,
+  );
   const [bookSearchParams, setBookSearchParams] = useState<BookSearchParameter>(
     bookSearchParamsDefault,
   );
@@ -48,7 +50,10 @@ const Main = () => {
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
     {
       data: data?.documents ? data.documents : [],
-      columns: bookInformationColumns(onOpenModal),
+      columns: bookInformationColumns({
+        onOpenModal: onOpenModal,
+        setSelectedBook: setSelectedBook,
+      }),
     },
   );
 
@@ -66,7 +71,9 @@ const Main = () => {
   });
 
   const handleSubmit = (data: z.infer<typeof FormSchema>) => {
-    data;
+    setBookSearchParams((prev) => {
+      return { ...prev, query: data.query };
+    });
   };
 
   return (
@@ -74,12 +81,13 @@ const Main = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <div className="flex gap-2 justify-end mb-2">
-            <div className="flex flex-col">
-              <InputWithHookForm registerName="search" />
-            </div>
+            <InputWithHookForm
+              registerName="query"
+              placeholder="책 정보를 입력해주세요"
+            />
             <Button>검색</Button>
             {/* <DatePicker /> */}
-            <DatePickerWithHookForm registerName="date" />
+            {/* <DatePickerWithHookForm registerName="date" /> */}
             {/* <Select
               onValueChange={(value) => {
                 setBookSearchParams((prev) => {
@@ -122,8 +130,19 @@ const Main = () => {
       </FormProvider>
       <DevTool control={methods.control} />
       {isOpen && (
-        <Modal title="Modal Title">
-          Modal Content
+        <Modal
+          title={selectedBook?.title ? selectedBook?.title : "Loading...."}
+        >
+          <div className="flex items-center justify-center my-4">
+            <img
+              src={selectedBook?.thumbnail}
+              className="w-1/2 rounded-xl"
+              alt={`${selectedBook.title}-image`}
+            />
+          </div>
+          <div className="mb-4">
+            <p>{selectedBook?.contents}</p>
+          </div>
           <div className="flex justify-end w-full gap-2">
             <Button
               variant={"secondary"}
@@ -145,10 +164,25 @@ const Main = () => {
 export default Main;
 
 const bookSearchParamsDefault = {
-  query: "가와바타 야스나리",
+  query: " ",
   sort: "accuracy",
   page: 1,
   size: "5",
   target: "",
   search: "",
+};
+
+const selectedBookDefaultValue = {
+  authors: [],
+  contents: "",
+  datetime: "",
+  isbn: "",
+  price: 0,
+  publisher: "",
+  sale_price: 0,
+  status: "",
+  thumbnail: "",
+  title: "",
+  translators: [],
+  url: "",
 };
