@@ -70,11 +70,8 @@ const Main = () => {
     resolver: zodResolver(FormSchema), // zod 유효성 검사를 위해 resolver 추가
   });
 
-  const handleSubmit = (data: z.infer<typeof FormSchema>) => {
-    setBookSearchParams((prev) => {
-      return { ...prev, query: data.query };
-    });
-  };
+  const handleSubmit = (data: z.infer<typeof FormSchema>) =>
+    setBookSearchParams((prev) => ({ ...prev, query: data.query }));
 
   return (
     <>
@@ -99,9 +96,7 @@ const Main = () => {
             <SelectWithHookForm
               registerName="size"
               afterValueChange={(value) => {
-                setBookSearchParams((prev) => {
-                  return { ...prev, size: value };
-                });
+                setBookSearchParams((prev) => ({ ...prev, size: value }));
                 table.setPageSize(parseInt(value));
               }}
             />
@@ -118,12 +113,10 @@ const Main = () => {
             defaultPageSize={bookSearchParams.size as number}
             current={bookSearchParams.page}
             onChange={(page) => {
-              setBookSearchParams((prev) => {
-                return {
-                  ...prev,
-                  page,
-                };
-              });
+              setBookSearchParams((prev) => ({
+                ...prev,
+                page,
+              }));
             }}
           />
         </form>
