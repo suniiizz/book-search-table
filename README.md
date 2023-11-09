@@ -9,6 +9,8 @@
 - 1차 목표는 우선 back-end 없이 ~~네이버 뉴스 api~~를 이용해서 제작하고 기회가 되면 firebase를 이용하여 백앤드를 구현할 예정입니다
 - 네이버 뉴스 api가 브라우저에서 요청 할 수 없는 이슈 때문에 카카오 책 검색 api를 이용하는 프로젝트로 수정했습니다.
 
+---
+
 ## 👨‍👦 참여 멤버
 
 <table>
@@ -30,6 +32,8 @@
     </tr>
 </table>
 
+---
+
 ## 🖥️ 기술 스택 및 주요 사용 라이브러리
 
 | Technology  | Version |
@@ -40,6 +44,8 @@
 | vite        | ^4.4.5  |
 | eslint      | ^8.45.0 |
 | husky       | ^8.0.3  |
+
+---
 
 ## 📚 기록할 사항들
 
@@ -58,7 +64,10 @@
 - **기타 정리 내용**
 
   - [route-error](https://github.com/pleasemrlostman/news-search-table/blob/main/document/route-error.md)
+  - [AWS EC2 배포]()
 
 - **리팩토링**
 
   - [useGloblQuery](https://github.com/pleasemrlostman/book-search-table/blob/main/document/refactoring/useGlobalQuery.md)
+
+---
