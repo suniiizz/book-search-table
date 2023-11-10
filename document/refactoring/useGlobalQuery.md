@@ -286,3 +286,39 @@ const { data } = useGlobalQuery<BookSearchParameter, BookInformationReturnType>(
   },
 );
 ```
+
+## 20231110 4차 리팩토링
+
+> `select`를 이용해서 보다 더 편리하게 백앤드가 전달해주는 자료를 받기위해 4차 리팩토링을 실시했다. 또한 추가적으로 `parameter` 값을 수정해서 필요한 인자를 더 유연하게 전달하는 방법으로 리팩토링을 실시했다. 해당 리팩토링을 위해 3차 리팩토링을 코드 리팩토링한
+> 코드를 사용하고 있는 실무 코드를 가져와서 한번 더 리팩토링 해주도록 하겠다. 아래는 현재 실무에서 사용하고 있는 3차 리팩토링 코드를 조금 수정 한 버전이다.
+
+```tsx
+import http from "@/http";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
+const useNewGlobalQuery = <T, K, D = K>(
+  {
+    URL,
+    key,
+  }: {
+    URL: string;
+    key: string;
+  },
+  params?: T,
+  options?: Omit<
+    UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+    "queryKey" | "queryFn"
+  >,
+  segment?: string,
+) => {
+  const res = useQuery<AxiosResponse<K>, AxiosError, D>({
+    queryKey: params ? [key, params] : [key],
+    queryFn: () =>
+      http.get(!segment ? URL : `${URL}/${segment}`, params && { params }),
+    select: (data) => data.data,
+    ...options,
+  } as UseQueryOptions<AxiosResponse<K>, AxiosError, D>);
+  return { ...res };
+};
+export default useNewGlobalQuery;
+```
