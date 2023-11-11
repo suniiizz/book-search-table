@@ -251,6 +251,8 @@ const { data } = useGlobalQuery<
 
 해당 코드처럼 `options`값을 객체로 전달 가능해졌다
 
+---
+
 ## 20231106 3차 리팩토링
 
 > `select`를 이용해서 `AxiosResponse<K>` 타입이아닌 데이터를 조작해서 새롭게 리턴해줄 경우에는 세번째 제네릭 자리에 실제로 받을 타입을 작성해줘야하지만. `<K>` 제네릭 타입을 그대로 받아 사용할 일도 빈번하다. 그래서 D의 값을 기본적으로 K와 같게 세팅하여 data를 수정해서 전달해 줄 이유가 없을 때는 세번쨰 제네릭 자리를 작성하지 않아도 오류가 없이 수정했다.
@@ -287,6 +289,8 @@ const { data } = useGlobalQuery<BookSearchParameter, BookInformationReturnType>(
 );
 ```
 
+---
+
 ## 20231110 4차 리팩토링
 
 > `select`를 이용해서 보다 더 편리하게 백앤드가 전달해주는 자료를 받기위해 4차 리팩토링을 실시했다. 또한 추가적으로 `parameter` 값을 수정해서 필요한 인자를 더 유연하게 전달하는 방법으로 리팩토링을 실시했다. 해당 리팩토링을 위해 3차 리팩토링을 코드 리팩토링한
@@ -322,3 +326,70 @@ const useNewGlobalQuery = <T, K, D = K>(
 };
 export default useNewGlobalQuery;
 ```
+
+위의 코드를 더 리팩토링해서 아래와 같은 코드를 작성했다
+
+```tsx
+import api from "@/api";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
+
+type UseGlobalQueryParameterObjectType<T, K, D> = {
+  URL: string;
+  key: string;
+  params?: T;
+  options?: Omit<
+    UseQueryOptions<AxiosResponse<K>, AxiosError, D>,
+    "queryKey" | "queryFn"
+  >;
+  segment?: string;
+};
+
+const useGlobalQuery = <T, K, D = K>({
+  URL,
+  key,
+  params,
+  options,
+  segment,
+}: UseGlobalQueryParameterObjectType<T, K, D>) => {
+  const res = useQuery<AxiosResponse<K>, AxiosError, D>({
+    queryKey: params ? [key, params] : [key],
+    queryFn: () =>
+      api.get(!segment ? URL : `${URL}/${segment}`, params && { params }),
+    select: (data) => data.data,
+    ...options,
+  } as UseQueryOptions<AxiosResponse<K>, AxiosError, D>);
+  return { ...res };
+};
+
+export default useGlobalQuery;
+```
+
+가장 먼저 기존에 `options`값에 달려있던 `<AxiosResponse<K>, AxiosError, D>` 값들을 `useQuery`에 작성해줘서 제작의도대로 제네릭을 추가해줬다.<br>
+그리고 기존의 그리고 `useQuery`의 인자값도 `as`를 통해서 확실하게 타입을 정해주었다. 여기서 `as`를 쓴 이유는 `options`의 타입은 `queryKey`와 `queryFn`을 `Omit` 한 타입인데 `useQuery`의 인자값 타입은 무조건 확정적으로 정해져있기 때문에 `as`를 써줘도 문제가 없다고 판단했기 떄문이다.
+
+두 번째로 기존의 여러개의 인자값들을 한개의 객체로 받을 수 있게 변경했다<br>
+이전의 코드는 `params`값이 필요하지 않는 경우도 있는데 `params`값이 두번 째 인자 값이라 빈 객체를 전달해주곤 했다.<br>
+하나의 객체로 수정함으로써 내가 원하는 값들만 전달할 수 있게 됐다.<br><br>
+
+세 번째로 options의 select값을 전달해주는게 아니라 안에서 우선적으로 실행하도록 했다.<br>
+처음 의도는 백앤드가 던져주는 `return` 값이 아니라 우선 `AxiosResponse`의 값을 `return` 되는 `data` 값으로 받을려고했다.<br>
+그리고 필요하면 `select: (data) => data.data` 값을 옵션 인자의 프로퍼티로 전달하여 `data` 값에 백엔드가 전달하는 값을 받으려했다.<br>
+하지만 여기서 불필요한 제네릭값을 한번 더 써줘야하는 문제점이 발생했다<br><br>
+예를들면 `select: (data) => data.data` 값을 추가하면 `data`에 들어오는 타입이 변경되므로 아래 코드와 같이 동일한 타입을 제네릭으로 전달해줘야 했다.<br>
+
+```tsx
+const { data } = useGlobalQuery<
+  BookSearchParameter,
+  BookInformationReturnType,
+  BookSearchParameter
+>;
+```
+
+만약 `AxiosResponse` 타입의 `data`가 필요한 상황이라면 세번째 제네릭에 `AxiosResponse<K>` 값을 추가해주고 `select` 옵션을 `select: (data) => data` 값으로 전달해주면 원하는 `AxiosResponse` 타입의 `data`를 전달 받을 수 있다
+
+마지막으로 `segement` 라는 인자를 추가해줬다.<br>
+프로제트를 진행하다보니 URL에 특정한 값을 추가해야할 상황이 발생했다 예를들면 `details/:id` 값과 같은<br>
+이러한 문제를 해결하기 위해 `URL` 뒤에 `segement`를 추가해 이러한 상황에 대응가능하게 리팩토링했다.
+
+> 3차 리팩토링 때만해도 더이상 수정할 부분이 생길까? 라는 의문을 해봤는데 역시 코드에는 완성이라는 개념이 없는 것 같다. 실무에서 사용을 하며 문제가 생기면 주저하지 않고 5차 리팩토링을 통해서 더 나은 코드를 작성할 수 있도록 노력해야겠다.
