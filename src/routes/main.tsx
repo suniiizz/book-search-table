@@ -42,9 +42,13 @@ const Main = () => {
   const { data } = useGlobalQuery<
     BookSearchParameter,
     BookInformationReturnType
-  >("book", bookSearchParams, "book-search", {
-    select: (data) => data.data,
-    placeholderData: keepPreviousData,
+  >({
+    URL: "book",
+    key: "book-search",
+    params: bookSearchParams,
+    options: {
+      placeholderData: keepPreviousData,
+    },
   });
 
   const { tableData, tableColumns } = useMemoizedTableData<BookInformationType>(
