@@ -10,7 +10,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { SelectWithHookForm } from "@/components/select";
+import { SelectWithUseController } from "@/components/select";
 import Modal from "@/components/modal";
 import { Sheet as SheetIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -97,8 +97,15 @@ const Main = () => {
                 table.setPageSize(parseInt(value));
               }}
             /> */}
-            <SelectWithHookForm
+            {/* <SelectWithHookForm
               registerName="size"
+              afterValueChange={(value) => {
+                setBookSearchParams((prev) => ({ ...prev, size: value }));
+                table.setPageSize(parseInt(value));
+              }}
+            /> */}
+            <SelectWithUseController<BookSearchParameter>
+              name="size"
               afterValueChange={(value) => {
                 setBookSearchParams((prev) => ({ ...prev, size: value }));
                 table.setPageSize(parseInt(value));

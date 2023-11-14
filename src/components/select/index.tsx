@@ -9,6 +9,8 @@ import {
   Controller,
   ControllerRenderProps,
   FieldValues,
+  UseControllerProps,
+  useController,
   useFormContext,
 } from "react-hook-form";
 
@@ -71,7 +73,32 @@ const SelectWithHookForm = ({
   );
 };
 
-export { Select, SelectWithHookForm };
+/* 
+type UseControllerProps = {
+    name: TName;
+    rules?: Omit<RegisterOptions<TFieldValues, TName>, 'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'>;
+    shouldUnregister?: boolean;
+    defaultValue?: FieldPathValue<TFieldValues, TName>;
+    control?: Control<TFieldValues>; // FormProvider 를 써줄 때는 굳이 안써줘도 됨,
+    disabled?: boolean;
+};
+*/
+const SelectWithUseController = <T extends FieldValues>(
+  props: UseControllerProps<T> & {
+    afterValueChange?: (value: string) => void;
+  },
+) => {
+  const { field } = useController(props);
+  return (
+    <Select
+      field={field}
+      afterValueChange={props.afterValueChange}
+      defaultValue={props.defaultValue}
+    />
+  );
+};
+
+export { Select, SelectWithHookForm, SelectWithUseController };
 
 const selectOption = {
   title: "10개",
