@@ -59,12 +59,12 @@
 - **Component 제작과정**
 
   - [Select](https://github.com/pleasemrlostman/news-search-table/tree/main/src/components/select)
-  - [Input]()
+  - [Input](https://github.com/suniiizz/book-search-table/tree/main/src/components/input)
 
 - **기타 정리 내용**
 
   - [route-error](https://github.com/pleasemrlostman/news-search-table/blob/main/document/route-error.md)
-  - [AWS EC2 배포]()
+  - [AWS EC2 배포](https://github.com/suniiizz/book-search-table/tree/main/document/ec2-nginx.md)
 
 - **리팩토링**
 
